@@ -15,7 +15,7 @@ src/{{source}}
 add_library(boost::{{name}} ALIAS boost_{{name}})
 set_property(TARGET boost_{{name}} PROPERTY EXPORT_NAME {{name}})
 
-target_include_directories(boost_{{name}} PUBLIC
+target_include_directories(boost_{{name}} {{public_type}}
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
