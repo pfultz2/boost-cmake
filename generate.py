@@ -79,6 +79,17 @@ class Boost:
         else:
             return []
 
+def read_additional_deps(f):
+    if os.path.exists(f):
+        for line in open(f).readlines():
+            yield line.split()
+
+def read_file(f):
+    if os.path.exists(f):
+        return open(f).read()
+    else:
+        return ''
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-b', '--boost')
 parser.add_argument('-t', '--template')
@@ -96,12 +107,17 @@ for m in boost.modules():
     if m in exclude:
         print 'Skipping module:', m
     else:
-        deps = [x for x in boost.get_deps(m) if not x in exclude]
+        boost_deps = [x.replace('/', '_') for x in boost.get_deps(m) if not x in exclude]
+        additional_deps = read_additional_deps(os.path.join('cmake', m, 'dependencies.txt'))
+        additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
         sources = boost.get_sources(m, exclude=exclude_src)
         header_only = len(sources) == 0
         data = {
             'name': m.replace('/', '_'),
-            'deps': [{'dep': x.replace('/', '_')} for x in deps],
+            'deps': 
+                [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps]+
+                [{'package':dep[0], 'library':dep[1]} for dep in additional_deps],
+            'additional_cmake': additional_cmake,
             'sources': [{'source': x.replace('/', '_')} for x in sources],
             'library_type': 'INTERFACE' if header_only else '',
             'public_type': 'INTERFACE' if header_only else 'PUBLIC',

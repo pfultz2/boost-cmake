@@ -4,7 +4,7 @@ project(boost_{{name}})
 include(CMakePackageConfigHelpers)
 
 {{#deps}}
-find_package(boost_{{dep}})
+find_package({{package}})
 {{/deps}}
 
 add_library(boost_{{name}} {{library_type}}
@@ -20,8 +20,12 @@ target_include_directories(boost_{{name}} {{public_type}}
 )
 
 {{#deps}}
-target_link_libraries(boost_{{name}} {{public_type}} boost::{{dep}})
+if({{package}}_FOUND)
+target_link_libraries(boost_{{name}} {{public_type}} {{library}})
+endif()
 {{/deps}}
+
+{{additional_cmake}}
 
 install(DIRECTORY include/ DESTINATION include)
 
@@ -38,13 +42,17 @@ install(EXPORT boost_{{name}}-targets
   DESTINATION lib/cmake/boost_{{name}}
 )
 
-file(WRITE "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "
-include(CMakeFindDependencyMacro)
-
+file(WRITE "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "include(CMakeFindDependencyMacro)")
 {{#deps}}
-find_package(boost_{{dep}})
+if({{package}}_FOUND)
+file(APPEND "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "
+find_package({{package}})
+")
+endif()
 {{/deps}}
 
+
+file(APPEND "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "
 include(\"\${CMAKE_CURRENT_LIST_DIR}/boost_{{name}}-targets.cmake\")
 ")
 
