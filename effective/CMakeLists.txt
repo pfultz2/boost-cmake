@@ -25,7 +25,7 @@ target_link_libraries(boost_{{name}} {{public_type}} {{library}})
 endif()
 {{/deps}}
 
-{{additional_cmake}}
+{{& additional_cmake}}
 
 install(DIRECTORY include/ DESTINATION include)
 

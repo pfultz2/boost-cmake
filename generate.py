@@ -101,8 +101,8 @@ shutil.copytree(args.boost, boost_dir, ignore=shutil.ignore_patterns('.git', 'CM
 boost = Boost(boost_dir)
 
 print "Generate cmake ..."
-exclude = ['context', 'fiber']
-exclude_src = ['zlib.cpp', 'bzip2.cpp', 'dump_avx2.cpp', 'dump_ssse3.cpp', 'windbg_cached.cpp', 'windbg.cpp']
+exclude = ['fiber']
+exclude_src = ['zlib.cpp', 'bzip2.cpp', 'dump_avx2.cpp', 'dump_ssse3.cpp', 'windbg_cached.cpp', 'windbg.cpp', 'untested.cpp']
 for m in boost.modules():
     if m in exclude:
         print 'Skipping module:', m
