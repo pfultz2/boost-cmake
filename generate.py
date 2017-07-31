@@ -92,6 +92,7 @@ def read_file(f):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-b', '--boost')
+parser.add_argument('-c', '--bcm')
 parser.add_argument('-t', '--template')
 args = parser.parse_args()
 
@@ -99,6 +100,9 @@ boost_dir = args.boost + '-out'
 print 'Copying boost tree ...'
 shutil.copytree(args.boost, boost_dir, ignore=shutil.ignore_patterns('.git', 'CMakeLists.txt'))
 boost = Boost(boost_dir)
+
+print 'Copying bcm ...'
+shutil.copytree(args.bcm, os.path.join(boost_dir, 'bcm'), ignore=shutil.ignore_patterns('.git'))
 
 print "Generate cmake ..."
 exclude = ['graph_parallel', 'mpi']
@@ -114,12 +118,14 @@ for m in boost.modules():
         header_only = len(sources) == 0
         data = {
             'name': m.replace('/', '_'),
+            'version': '1.64.0',
             'deps': 
                 [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps],
             'additional_cmake': additional_cmake,
             'sources': [{'source': x.replace('/', '_')} for x in sources],
             'library_type': 'INTERFACE' if header_only else '',
             'public_type': 'INTERFACE' if header_only else 'PUBLIC',
+            'if_build': not header_only,
         }
         for f in scan_files(args.template):
             content = open(os.path.join(args.template, f)).read()
