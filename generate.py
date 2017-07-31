@@ -101,7 +101,7 @@ shutil.copytree(args.boost, boost_dir, ignore=shutil.ignore_patterns('.git', 'CM
 boost = Boost(boost_dir)
 
 print "Generate cmake ..."
-exclude = []
+exclude = ['graph_parallel', 'mpi']
 exclude_src = ['zlib.cpp', 'bzip2.cpp', 'dump_avx2.cpp', 'dump_ssse3.cpp', 'windbg_cached.cpp', 'windbg.cpp', 'untested.cpp', 'unsupported.cpp']
 for m in boost.modules():
     if m in exclude:
@@ -115,8 +115,7 @@ for m in boost.modules():
         data = {
             'name': m.replace('/', '_'),
             'deps': 
-                [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps]+
-                [{'package':dep[0], 'library':dep[1]} for dep in additional_deps],
+                [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps],
             'additional_cmake': additional_cmake,
             'sources': [{'source': x.replace('/', '_')} for x in sources],
             'library_type': 'INTERFACE' if header_only else '',

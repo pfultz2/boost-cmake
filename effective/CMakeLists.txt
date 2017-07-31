@@ -46,7 +46,7 @@ file(WRITE "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "include(CMakeFin
 {{#deps}}
 if({{package}}_FOUND)
 file(APPEND "${PROJECT_BINARY_DIR}/boost_{{name}}-config.cmake" "
-find_package({{package}})
+find_dependency({{package}})
 ")
 endif()
 {{/deps}}
