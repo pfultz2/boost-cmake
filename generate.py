@@ -54,20 +54,21 @@ class Boost:
         self.header_index = {}
         self.create_index()
 
+    def has_sublibs(self, d):
+        # return os.path.exists(self.module_path(d, 'sublibs'))
+        return d in ['numeric']
+
     def traverse_libs(self, root):
         for d in ls_dir(root):
-            if os.path.exists(self.module_path(d, 'sublibs')):
-                for x in self.traverse_libs(self.module_path(d)):
-                    yield os.path.join(d, x)
-            else: yield d
+            if not d in ['doc']:
+                if self.has_sublibs(d):
+                    for x in self.traverse_libs(self.module_path(d)):
+                        yield os.path.join(d, x)
+                else: yield d
 
     def modules(self):
         for x in self.traverse_libs(self.lib_dir):
-            yield x
-        # for d in scan_dirs(self.lib_dir):
-        #     if not 'include' in d and not 'qtcreator' in d and os.path.exists(os.path.join(self.lib_dir, d, 'include')):
-        #         if not 'metaparse/tools' in d and not 'mpl/preprocessed' in d:
-        #             yield d 
+            yield x 
 
     def module_path(self, *args):
         return os.path.join(self.lib_dir, *args)
