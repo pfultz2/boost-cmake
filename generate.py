@@ -59,9 +59,9 @@ class Boost:
                 if f.endswith(('.hpp', '.h')):
                     self.header_index[f] = m
 
-    def get_deps(self, m):
+    def get_deps(self, m, dirs):
         result = set()
-        for dd in [self.module_path(m, 'include'), self.module_path(m, 'src')]:
+        for dd in [self.module_path(m, x) for x in dirs]:
             for f in scan_files(dd):
                 if f.endswith(('.hpp', '.h', '.cpp', '.ipp')):
                     for inc in read_includes(os.path.join(dd, f)):
@@ -72,6 +72,12 @@ class Boost:
                                 print "Missing header:", inc
         if m in result: result.remove(m)
         return result
+
+    def get_library_deps(self, m):
+        return self.get_deps(m, ['include', 'src'])
+
+    def get_test_deps(self, m):
+        return self.get_deps(m, ['test'])
 
     def get_sources(self, m, exclude=[]):
         if os.path.exists(self.module_path(m, 'src')):
@@ -111,7 +117,7 @@ for m in boost.modules():
     if m in exclude:
         print 'Skipping module:', m
     else:
-        boost_deps = [x.replace('/', '_') for x in boost.get_deps(m) if not x in exclude]
+        boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
         additional_deps = read_additional_deps(os.path.join('cmake', m, 'dependencies.txt'))
         additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
         sources = boost.get_sources(m, exclude=exclude_src)
