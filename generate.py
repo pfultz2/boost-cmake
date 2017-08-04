@@ -139,7 +139,6 @@ for m in boost.modules():
     else:
         boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
         test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude]
-        additional_deps = read_additional_deps(os.path.join('cmake', m, 'dependencies.txt'))
         additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
         sources = boost.get_sources(m, exclude=exclude_src)
         header_only = len(sources) == 0

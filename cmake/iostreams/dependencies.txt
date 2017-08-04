@@ -1,2 +1,0 @@
-ZLIB ZLIB::ZLIB
-BZip2 BZip2::BZip2
