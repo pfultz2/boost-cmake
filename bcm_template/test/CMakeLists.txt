@@ -9,3 +9,5 @@ bcm_test_link_libraries(boost_{{name}}
 {{library}}
 {{/test_deps}}
 )
+
+{{& additional_test}}

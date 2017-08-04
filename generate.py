@@ -140,6 +140,7 @@ for m in boost.modules():
         boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
         test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude]
         additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
+        additional_test = read_file(os.path.join('cmake', m, 'test', 'CMakeLists.txt'))
         sources = boost.get_sources(m, exclude=exclude_src)
         header_only = len(sources) == 0
         data = {
@@ -148,6 +149,7 @@ for m in boost.modules():
             'deps': [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps],
             'test_deps': [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in test_deps],
             'additional_cmake': additional_cmake,
+            'additional_test': additional_test,
             'sources': [{'source': x.replace('/', '_')} for x in sources],
             'library_type': 'INTERFACE' if header_only else '',
             'public_type': 'INTERFACE' if header_only else 'PUBLIC',
@@ -156,4 +158,7 @@ for m in boost.modules():
         for f in scan_files(args.template):
             content = open(os.path.join(args.template, f)).read()
             write_to(boost.module_path(m, f), pystache.render(content, data))
+for f in scan_files('cmake'):
+    if not f.endswith('CMakeLists.txt'):
+        shutil.copy(os.path.join('cmake', f), os.path.join(boost.lib_dir, f))
 
