@@ -18,6 +18,14 @@ def ls_dir(p):
 def ls_files(p):
     return [f for f in os.listdir(p) if os.path.isfile(os.path.join(p, f))]
 
+def mkdir(p):
+    if not os.path.exists(p): os.makedirs(p)
+    return p
+
+def write_to(file, content):
+    mkdir(os.path.dirname(file))
+    open(file, 'w').write(content)
+
 def scan_files(d):
     if os.path.exists(d):
         for root, dirs, files in os.walk(d):
@@ -37,6 +45,8 @@ def read_includes(f):
         m = re.match( '[ \t]*#[ \t]*include[ \t]*["<](boost/[^">]*)[">]', line )
         if m: yield m.group( 1 )
 
+    
+
 class Boost:
     def __init__(self, d):
         self.root = d
@@ -44,11 +54,20 @@ class Boost:
         self.header_index = {}
         self.create_index()
 
+    def traverse_libs(self, root):
+        for d in ls_dir(root):
+            if os.path.exists(self.module_path(d, 'sublibs')):
+                for x in self.traverse_libs(self.module_path(d)):
+                    yield os.path.join(d, x)
+            else: yield d
+
     def modules(self):
-        for d in scan_dirs(self.lib_dir):
-            if not 'include' in d and not 'qtcreator' in d and os.path.exists(os.path.join(self.lib_dir, d, 'include')):
-                if not 'metaparse/tools' in d and not 'mpl/preprocessed' in d:
-                    yield d 
+        for x in self.traverse_libs(self.lib_dir):
+            yield x
+        # for d in scan_dirs(self.lib_dir):
+        #     if not 'include' in d and not 'qtcreator' in d and os.path.exists(os.path.join(self.lib_dir, d, 'include')):
+        #         if not 'metaparse/tools' in d and not 'mpl/preprocessed' in d:
+        #             yield d 
 
     def module_path(self, *args):
         return os.path.join(self.lib_dir, *args)
@@ -118,6 +137,7 @@ for m in boost.modules():
         print 'Skipping module:', m
     else:
         boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
+        test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude]
         additional_deps = read_additional_deps(os.path.join('cmake', m, 'dependencies.txt'))
         additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
         sources = boost.get_sources(m, exclude=exclude_src)
@@ -125,8 +145,8 @@ for m in boost.modules():
         data = {
             'name': m.replace('/', '_'),
             'version': '1.64.0',
-            'deps': 
-                [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps],
+            'deps': [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in boost_deps],
+            'test_deps': [{'package': 'boost_'+x, 'library': 'boost::'+x} for x in test_deps],
             'additional_cmake': additional_cmake,
             'sources': [{'source': x.replace('/', '_')} for x in sources],
             'library_type': 'INTERFACE' if header_only else '',
@@ -135,5 +155,5 @@ for m in boost.modules():
         }
         for f in scan_files(args.template):
             content = open(os.path.join(args.template, f)).read()
-            open(boost.module_path(m, f), 'w').write(pystache.render(content, data))
+            write_to(boost.module_path(m, f), pystache.render(content, data))
 

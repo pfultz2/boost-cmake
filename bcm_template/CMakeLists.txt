@@ -30,6 +30,4 @@ target_include_directories(boost_{{name}} PRIVATE include)
 
 bcm_deploy(TARGETS boost_{{name}} INCLUDE include NAMESPACE boost::)
 
-if(EXISTS test/CMakeLists.txt)
 add_subdirectory(test)
-endif()
