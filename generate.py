@@ -131,16 +131,16 @@ print 'Copying bcm ...'
 shutil.copytree(args.bcm, os.path.join(boost_dir, 'bcm'), ignore=shutil.ignore_patterns('.git'))
 
 print "Generate cmake ..."
-exclude = ['graph_parallel', 'mpi']
+exclude = ['graph_parallel', 'mpi', 'test']
 exclude_src = ['zlib.cpp', 'bzip2.cpp', 'dump_avx2.cpp', 'dump_ssse3.cpp', 'windbg_cached.cpp', 'windbg.cpp', 'untested.cpp', 'unsupported.cpp']
 for m in boost.modules():
     if m in exclude:
         print 'Skipping module:', m
     else:
         boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
-        test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude]
-        additional_cmake = read_file(os.path.join('cmake', m, 'CMakeLists.txt'))
-        additional_test = read_file(os.path.join('cmake', m, 'test', 'CMakeLists.txt'))
+        test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude and not x in boost_deps]
+        additional_cmake = read_file(os.path.join('cmake', m, 'root.cmake'))
+        additional_test = read_file(os.path.join('cmake', m, 'test.cmake'))
         sources = boost.get_sources(m, exclude=exclude_src)
         header_only = len(sources) == 0
         data = {
@@ -159,6 +159,6 @@ for m in boost.modules():
             content = open(os.path.join(args.template, f)).read()
             write_to(boost.module_path(m, f), pystache.render(content, data))
 for f in scan_files('cmake'):
-    if not f.endswith('CMakeLists.txt'):
+    if not f.endswith(('root.cmake', 'test.cmake')):
         shutil.copy(os.path.join('cmake', f), os.path.join(boost.lib_dir, f))
 
