@@ -7,6 +7,7 @@ import argparse
 import shutil
 import pystache
 import json
+import multiprocessing
 
 def auto_list(x):
     if isinstance(x, list): return x
@@ -125,15 +126,16 @@ args = parser.parse_args()
 boost_dir = args.boost + '-out'
 print 'Copying boost tree ...'
 shutil.copytree(args.boost, boost_dir, ignore=shutil.ignore_patterns('.git', 'CMakeLists.txt'))
+print 'Indexing boost tree ...'
 boost = Boost(boost_dir)
 
 print 'Copying bcm ...'
 shutil.copytree(args.bcm, os.path.join(boost_dir, 'bcm'), ignore=shutil.ignore_patterns('.git'))
 
 print "Generate cmake ..."
-exclude = ['graph_parallel', 'mpi', 'test']
+exclude = ['graph_parallel', 'mpi']
 exclude_src = ['zlib.cpp', 'bzip2.cpp', 'dump_avx2.cpp', 'dump_ssse3.cpp', 'windbg_cached.cpp', 'windbg.cpp', 'untested.cpp', 'unsupported.cpp']
-for m in boost.modules():
+def generate_module(m):
     if m in exclude:
         print 'Skipping module:', m
     else:
@@ -158,6 +160,10 @@ for m in boost.modules():
         for f in scan_files(args.template):
             content = open(os.path.join(args.template, f)).read()
             write_to(boost.module_path(m, f), pystache.render(content, data))
+
+pool = multiprocessing.Pool()
+pool.map(generate_module, boost.modules())
+
 for f in scan_files('cmake'):
     if not f.endswith(('root.cmake', 'test.cmake')):
         shutil.copy(os.path.join('cmake', f), os.path.join(boost.lib_dir, f))
