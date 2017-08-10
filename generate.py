@@ -139,7 +139,7 @@ def generate_module(m):
     if m in exclude:
         print 'Skipping module:', m
     else:
-        boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude]
+        boost_deps = [x.replace('/', '_') for x in boost.get_library_deps(m) if not x in exclude and x != 'test']
         test_deps = [x.replace('/', '_') for x in boost.get_test_deps(m) if not x in exclude and not x in boost_deps]
         additional_cmake = read_file(os.path.join('cmake', m, 'root.cmake'))
         additional_test = read_file(os.path.join('cmake', m, 'test.cmake'))
