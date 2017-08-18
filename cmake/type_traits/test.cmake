@@ -6,7 +6,7 @@ include(BCMProperties)
 
 # Wrapper around bcm_test to set our own warning levels
 function(type_traits_add_test target)
-  bcm_test(NAME ${target} ${ARGV})
+  bcm_test(NAME ${target} ${ARGN})
   target_compile_options(${target} PRIVATE -Wall)
   set_target_properties(${target} PROPERTIES CXX_WARNINGS_AS_ERRORS On)
 endfunction()

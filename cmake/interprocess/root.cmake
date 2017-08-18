@@ -1,3 +1,6 @@
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     target_link_libraries(boost_interprocess INTERFACE -lrt)
 endif()
+if(WIN32)
+    target_link_libraries(boost_interprocess INTERFACE -lole32 -loleaut32 -lpsapi -ladvapi32)
+endif()
