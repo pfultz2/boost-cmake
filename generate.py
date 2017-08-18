@@ -46,7 +46,9 @@ def read_includes(f):
         m = re.match( '[ \t]*#[ \t]*include[ \t]*["<](boost/[^">]*)[">]', line )
         if m: yield m.group( 1 )
 
-    
+def mkdir(p):
+    if not os.path.exists(p): os.makedirs(p)
+    return p
 
 class Boost:
     def __init__(self, d):
@@ -166,5 +168,7 @@ pool.map(generate_module, boost.modules())
 
 for f in scan_files('cmake'):
     if not f.endswith(('root.cmake', 'test.cmake')):
-        shutil.copy(os.path.join('cmake', f), os.path.join(boost.lib_dir, f))
+        dst = os.path.join(boost.lib_dir, f)
+        mkdir(os.path.dirname(dst))
+        shutil.copy(os.path.join('cmake', f), dst)
 
