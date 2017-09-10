@@ -1,3 +1,4 @@
+enable_language(ASM)
 set(abi
   aapcs
   eabi
@@ -92,6 +93,12 @@ target_sources(boost_context PRIVATE
   src/asm/jump_${BOOST_CONTEXT_ARCHITECTURE}_${BOOST_CONTEXT_ABI}_${BOOST_CONTEXT_BINARY_FORMAT}_${asm_format}
   src/asm/ontop_${BOOST_CONTEXT_ARCHITECTURE}_${BOOST_CONTEXT_ABI}_${BOOST_CONTEXT_BINARY_FORMAT}_${asm_format}
 )
+
+if(WIN32)
+target_sources(boost_context PRIVATE src/windows/stack_traits.cpp)
+else()
+target_sources(boost_context PRIVATE src/posix/stack_traits.cpp)
+endif()
 
 find_path(UCONTEXT_INCLUDE_DIR ucontext.h)
 
