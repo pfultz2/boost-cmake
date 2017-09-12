@@ -46,9 +46,8 @@
 
 
 
-bcm_test(NAME exec SOURCES exec.cpp)
-bcm_test(NAME exec-dynamic SOURCES exec.cpp)
-bcm_test(NAME import_ SOURCES import_.cpp)
+bcm_test(NAME exec SOURCES exec.cpp ARGS exec.py)
+bcm_test(NAME import_ SOURCES import_.cpp ARGS import_.py)
 bcm_test(NAME indirect_traits_test SOURCES indirect_traits_test.cpp COMPILE_ONLY)
 bcm_test(NAME destroy_test SOURCES destroy_test.cpp)
 bcm_test(NAME if_else SOURCES if_else.cpp)

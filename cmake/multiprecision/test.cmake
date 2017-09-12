@@ -3,7 +3,16 @@
 # (See accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt.
 
+# HACK: Workaround broken includes
+file(GLOB TEST_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.hpp *.ipp)
+foreach(HEADER ${TEST_HEADERS})
+configure_file(${HEADER} ${CMAKE_CURRENT_BINARY_DIR}/include/libs/multiprecision/test/${HEADER} @ONLY)
+endforeach()
 
+add_library(multiprecision_test_settings INTERFACE)
+target_include_directories(multiprecision_test_settings INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/include)
+
+bcm_test_link_libraries(multiprecision_test_settings)
 
 # We set these to make it easier to set up and test GMP and MPFR under Win32:
 # Speed up compiles:
@@ -26,20 +35,20 @@ bcm_test(NAME test_arithmetic_cpp_bin_float_1 SOURCES test_arithmetic_cpp_bin_fl
 bcm_test(NAME test_arithmetic_cpp_bin_float_2 SOURCES test_arithmetic_cpp_bin_float_2.cpp)
 bcm_test(NAME test_arithmetic_cpp_bin_float_3 SOURCES test_arithmetic_cpp_bin_float_3.cpp)
 
-bcm_test(NAME test_arithmetic_mpf_50 SOURCES test_arithmetic_mpf_50.cpp)
-bcm_test(NAME test_arithmetic_mpf SOURCES test_arithmetic_mpf.cpp)
-bcm_test(NAME test_arithmetic_mpz SOURCES test_arithmetic_mpz.cpp)
-bcm_test(NAME test_arithmetic_mpz_rat SOURCES test_arithmetic_mpz_rat.cpp)
-bcm_test(NAME test_arithmetic_mpz_br SOURCES test_arithmetic_mpz_br.cpp)
-bcm_test(NAME test_arithmetic_mpq SOURCES test_arithmetic_mpq.cpp)
+# bcm_test(NAME test_arithmetic_mpf_50 SOURCES test_arithmetic_mpf_50.cpp)
+# bcm_test(NAME test_arithmetic_mpf SOURCES test_arithmetic_mpf.cpp)
+# bcm_test(NAME test_arithmetic_mpz SOURCES test_arithmetic_mpz.cpp)
+# bcm_test(NAME test_arithmetic_mpz_rat SOURCES test_arithmetic_mpz_rat.cpp)
+# bcm_test(NAME test_arithmetic_mpz_br SOURCES test_arithmetic_mpz_br.cpp)
+# bcm_test(NAME test_arithmetic_mpq SOURCES test_arithmetic_mpq.cpp)
 
-bcm_test(NAME test_arithmetic_mpfr SOURCES test_arithmetic_mpfr.cpp)
-bcm_test(NAME test_arithmetic_mpfr_50 SOURCES test_arithmetic_mpfr_50.cpp)
-bcm_test(NAME test_arithmetic_mpfr_50_static SOURCES test_arithmetic_mpfr_50_static.cpp)
+# bcm_test(NAME test_arithmetic_mpfr SOURCES test_arithmetic_mpfr.cpp)
+# bcm_test(NAME test_arithmetic_mpfr_50 SOURCES test_arithmetic_mpfr_50.cpp)
+# bcm_test(NAME test_arithmetic_mpfr_50_static SOURCES test_arithmetic_mpfr_50_static.cpp)
 
-bcm_test(NAME test_arithmetic_tommath SOURCES test_arithmetic_tommath.cpp)
-bcm_test(NAME test_arithmetic_tommath_rat SOURCES test_arithmetic_tommath_rat.cpp)
-bcm_test(NAME test_arithmetic_tommath_br SOURCES test_arithmetic_tommath_br.cpp)
+# bcm_test(NAME test_arithmetic_tommath SOURCES test_arithmetic_tommath.cpp)
+# bcm_test(NAME test_arithmetic_tommath_rat SOURCES test_arithmetic_tommath_rat.cpp)
+# bcm_test(NAME test_arithmetic_tommath_br SOURCES test_arithmetic_tommath_br.cpp)
 
 bcm_test(NAME test_arithmetic_cpp_int_1 SOURCES test_arithmetic_cpp_int_1.cpp)
 bcm_test(NAME test_arithmetic_cpp_int_2 SOURCES test_arithmetic_cpp_int_2.cpp)
@@ -73,31 +82,31 @@ bcm_test(NAME test_arithmetic_logged_2 SOURCES test_arithmetic_logged_2.cpp)
 bcm_test(NAME test_arithmetic_dbg_adptr1 SOURCES test_arithmetic_dbg_adptr1.cpp)
 bcm_test(NAME test_arithmetic_dbg_adptr2 SOURCES test_arithmetic_dbg_adptr2.cpp)
 
-bcm_test(NAME test_arithmetic_mpfi_50 SOURCES test_arithmetic_mpfi_50.cpp)
+# bcm_test(NAME test_arithmetic_mpfi_50 SOURCES test_arithmetic_mpfi_50.cpp)
 
-bcm_test(NAME test_arithmetic_float_128 SOURCES test_arithmetic_float_128.cpp)
-bcm_test(NAME test_arithmetic_intel_quad SOURCES test_arithmetic_float_128.cpp)
+# bcm_test(NAME test_arithmetic_float_128 SOURCES test_arithmetic_float_128.cpp)
+# bcm_test(NAME test_arithmetic_intel_quad SOURCES test_arithmetic_float_128.cpp)
 
 bcm_test(NAME test_numeric_limits_backend_concept SOURCES test_numeric_limits.cpp)
 target_compile_definitions(test_numeric_limits_backend_concept PUBLIC TEST_BACKEND)
 
-bcm_test(NAME test_numeric_limits_mpf50 SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpf50 PUBLIC TEST_MPF_50)
+# bcm_test(NAME test_numeric_limits_mpf50 SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpf50 PUBLIC TEST_MPF_50)
 
-bcm_test(NAME test_numeric_limits_mpf SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpf PUBLIC TEST_MPF)
+# bcm_test(NAME test_numeric_limits_mpf SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpf PUBLIC TEST_MPF)
 
-bcm_test(NAME test_numeric_limits_mpz SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpz PUBLIC TEST_MPZ)
+# bcm_test(NAME test_numeric_limits_mpz SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpz PUBLIC TEST_MPZ)
 
-bcm_test(NAME test_numeric_limits_mpq SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpq PUBLIC TEST_MPQ)
+# bcm_test(NAME test_numeric_limits_mpq SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpq PUBLIC TEST_MPQ)
 
-bcm_test(NAME test_numeric_limits_mpfr SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpfr PUBLIC TEST_MPFR)
+# bcm_test(NAME test_numeric_limits_mpfr SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpfr PUBLIC TEST_MPFR)
 
-bcm_test(NAME test_numeric_limits_mpfr_50 SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpfr_50 PUBLIC TEST_MPFR_50)
+# bcm_test(NAME test_numeric_limits_mpfr_50 SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpfr_50 PUBLIC TEST_MPFR_50)
 
 bcm_test(NAME test_numeric_limits_cpp_dec_float SOURCES test_numeric_limits.cpp)
 target_compile_definitions(test_numeric_limits_cpp_dec_float PUBLIC TEST_CPP_DEC_FLOAT)
@@ -105,20 +114,20 @@ target_compile_definitions(test_numeric_limits_cpp_dec_float PUBLIC TEST_CPP_DEC
 bcm_test(NAME test_numeric_limits_cpp_bin_float SOURCES test_numeric_limits.cpp)
 target_compile_definitions(test_numeric_limits_cpp_bin_float PUBLIC TEST_CPP_BIN_FLOAT)
 
-bcm_test(NAME test_numeric_limits_tommath SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_tommath PUBLIC TEST_TOMMATH)
+# bcm_test(NAME test_numeric_limits_tommath SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_tommath PUBLIC TEST_TOMMATH)
 
 bcm_test(NAME test_numeric_limits_cpp_int SOURCES test_numeric_limits.cpp)
 target_compile_definitions(test_numeric_limits_cpp_int PUBLIC TEST_CPP_INT)
 
-bcm_test(NAME test_numeric_limits_mpfi_50 SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_mpfi_50 PUBLIC TEST_MPFI_50)
+# bcm_test(NAME test_numeric_limits_mpfi_50 SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_mpfi_50 PUBLIC TEST_MPFI_50)
 
 
-bcm_test(NAME test_numeric_limits_float128 SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_float128 PUBLIC TEST_FLOAT128)
-bcm_test(NAME test_numeric_limits_intel_quad SOURCES test_numeric_limits.cpp)
-target_compile_definitions(test_numeric_limits_intel_quad PUBLIC TEST_FLOAT128)
+# bcm_test(NAME test_numeric_limits_float128 SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_float128 PUBLIC TEST_FLOAT128)
+# bcm_test(NAME test_numeric_limits_intel_quad SOURCES test_numeric_limits.cpp)
+# target_compile_definitions(test_numeric_limits_intel_quad PUBLIC TEST_FLOAT128)
 
 # bcm_test(NAME $(source:B)_mpf50 SOURCES $(source))
 # target_compile_definitions($(source:B)_mpf50 PUBLIC TEST_MPF_50)
@@ -135,28 +144,29 @@ target_compile_definitions(test_numeric_limits_intel_quad PUBLIC TEST_FLOAT128)
 # bcm_test(NAME $(source:B)_intel_quad SOURCES $(source))
 # target_compile_definitions($(source:B)_intel_quad PUBLIC TEST_FLOAT128)
 
-bcm_test(NAME test_gmp_conversions SOURCES test_gmp_conversions.cpp)
+# bcm_test(NAME test_gmp_conversions SOURCES test_gmp_conversions.cpp)
 
-bcm_test(NAME test_mpfr_conversions SOURCES test_mpfr_conversions.cpp)
+# bcm_test(NAME test_mpfr_conversions SOURCES test_mpfr_conversions.cpp)
 
-bcm_test(NAME test_constants_mpf50 SOURCES test_constants.cpp)
-target_compile_definitions(test_constants_mpf50 PUBLIC TEST_MPF_50)
+# bcm_test(NAME test_constants_mpf50 SOURCES test_constants.cpp)
+# target_compile_definitions(test_constants_mpf50 PUBLIC TEST_MPF_50)
 
-bcm_test(NAME test_constants_mpfr_50 SOURCES test_constants.cpp)
-target_compile_definitions(test_constants_mpfr_50 PUBLIC TEST_MPFR_50)
+# bcm_test(NAME test_constants_mpfr_50 SOURCES test_constants.cpp)
+# target_compile_definitions(test_constants_mpfr_50 PUBLIC TEST_MPFR_50)
 
 bcm_test(NAME test_constants_cpp_dec_float SOURCES test_constants.cpp)
 target_compile_definitions(test_constants_cpp_dec_float PUBLIC TEST_CPP_DEC_FLOAT)
 
 
-bcm_test(NAME test_move_mpfr SOURCES test_move.cpp)
-target_compile_definitions(test_move_mpfr PUBLIC TEST_MPFR)
+# TODO: Check for gmp or mpft
+# bcm_test(NAME test_move_mpfr SOURCES test_move.cpp)
+# target_compile_definitions(test_move_mpfr PUBLIC TEST_MPFR)
 
-bcm_test(NAME test_move_gmp SOURCES test_move.cpp)
-target_compile_definitions(test_move_gmp PUBLIC TEST_GMP)
+# bcm_test(NAME test_move_gmp SOURCES test_move.cpp)
+# target_compile_definitions(test_move_gmp PUBLIC TEST_GMP)
 
-bcm_test(NAME test_move_tommath SOURCES test_move.cpp)
-target_compile_definitions(test_move_tommath PUBLIC TEST_TOMMATH)
+# bcm_test(NAME test_move_tommath SOURCES test_move.cpp)
+# target_compile_definitions(test_move_tommath PUBLIC TEST_TOMMATH)
 
 bcm_test(NAME test_move_cpp_int SOURCES test_move.cpp)
 target_compile_definitions(test_move_cpp_int PUBLIC TEST_CPP_INT)
@@ -169,30 +179,30 @@ bcm_test(NAME test_nothrow_cpp_int SOURCES test_nothrow_cpp_int.cpp COMPILE_ONLY
 bcm_test(NAME test_nothrow_cpp_rational SOURCES test_nothrow_cpp_rational.cpp COMPILE_ONLY)
 bcm_test(NAME test_nothrow_cpp_bin_float SOURCES test_nothrow_cpp_bin_float.cpp COMPILE_ONLY)
 bcm_test(NAME test_nothrow_cpp_dec_float SOURCES test_nothrow_cpp_dec_float.cpp COMPILE_ONLY)
-bcm_test(NAME test_nothrow_float128 SOURCES test_nothrow_float128.cpp COMPILE_ONLY)
-bcm_test(NAME test_nothrow_gmp SOURCES test_nothrow_gmp.cpp COMPILE_ONLY)
-bcm_test(NAME test_nothrow_mpfr SOURCES test_nothrow_mpfr.cpp COMPILE_ONLY)
+# bcm_test(NAME test_nothrow_float128 SOURCES test_nothrow_float128.cpp COMPILE_ONLY)
+# bcm_test(NAME test_nothrow_gmp SOURCES test_nothrow_gmp.cpp COMPILE_ONLY)
+# bcm_test(NAME test_nothrow_mpfr SOURCES test_nothrow_mpfr.cpp COMPILE_ONLY)
 
 #
 # Interconversion tests:
 #
 bcm_test(NAME test_convert_from_cpp_int SOURCES test_convert_from_cpp_int.cpp)
-bcm_test(NAME test_convert_from_mpz_int SOURCES test_convert_from_mpz_int.cpp)
-bcm_test(NAME test_convert_from_tom_int SOURCES test_convert_from_tom_int.cpp)
+# bcm_test(NAME test_convert_from_mpz_int SOURCES test_convert_from_mpz_int.cpp)
+# bcm_test(NAME test_convert_from_tom_int SOURCES test_convert_from_tom_int.cpp)
 bcm_test(NAME test_convert_from_cpp_rational SOURCES test_convert_from_cpp_rational.cpp)
-bcm_test(NAME test_convert_from_gmp_rational SOURCES test_convert_from_gmp_rational.cpp)
-bcm_test(NAME test_convert_from_tom_rational SOURCES test_convert_from_tom_rational.cpp)
+# bcm_test(NAME test_convert_from_gmp_rational SOURCES test_convert_from_gmp_rational.cpp)
+# bcm_test(NAME test_convert_from_tom_rational SOURCES test_convert_from_tom_rational.cpp)
 bcm_test(NAME test_convert_from_cpp_bin_float SOURCES test_convert_from_cpp_bin_float.cpp)
 bcm_test(NAME test_convert_from_cpp_dec_float SOURCES test_convert_from_cpp_dec_float.cpp)
-bcm_test(NAME test_convert_from_mpf_float SOURCES test_convert_from_mpf_float.cpp)
-bcm_test(NAME test_convert_from_mpfr_float SOURCES test_convert_from_mpfr_float.cpp)
-bcm_test(NAME test_convert_from_mpfi_float SOURCES test_convert_from_mpfi_float.cpp)
-bcm_test(NAME test_convert_from_float128 SOURCES test_convert_from_float128.cpp)
+# bcm_test(NAME test_convert_from_mpf_float SOURCES test_convert_from_mpf_float.cpp)
+# bcm_test(NAME test_convert_from_mpfr_float SOURCES test_convert_from_mpfr_float.cpp)
+# bcm_test(NAME test_convert_from_mpfi_float SOURCES test_convert_from_mpfi_float.cpp)
+# bcm_test(NAME test_convert_from_float128 SOURCES test_convert_from_float128.cpp)
 
 #
 # This take too long to run as a regular part of the tests:
 #
-bcm_test(NAME test_cpp_bin_float_round SOURCES test_cpp_bin_float_round.cpp)
+# bcm_test(NAME test_cpp_bin_float_round SOURCES test_cpp_bin_float_round.cpp)
 
 bcm_test(NAME test_cpp_bin_float_conv SOURCES test_cpp_bin_float_conv.cpp)
 
@@ -205,87 +215,87 @@ target_compile_definitions(test_cpp_bin_float_io_2 PUBLIC TEST2release)
 bcm_test(NAME test_cpp_bin_float SOURCES test_cpp_bin_float.cpp)
 target_compile_definitions(test_cpp_bin_float PUBLIC TEST_MPFRrelease)
 
-bcm_test(NAME test_float_io_cpp_dec_float SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_cpp_dec_float PUBLIC TEST_CPP_DEC_FLOATrelease)
+# bcm_test(NAME test_float_io_cpp_dec_float SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_cpp_dec_float PUBLIC TEST_CPP_DEC_FLOATrelease)
 
-bcm_test(NAME test_float_io_mpf SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_mpf PUBLIC TEST_MPF_50release)
+# bcm_test(NAME test_float_io_mpf SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_mpf PUBLIC TEST_MPF_50release)
 
-bcm_test(NAME test_float_io_mpfr SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_mpfr PUBLIC TEST_MPFR_50release)
+# bcm_test(NAME test_float_io_mpfr SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_mpfr PUBLIC TEST_MPFR_50release)
 
-bcm_test(NAME test_float_io_mpfi SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_mpfi PUBLIC TEST_MPFI_50release)
+# bcm_test(NAME test_float_io_mpfi SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_mpfi PUBLIC TEST_MPFI_50release)
 
-bcm_test(NAME test_float_io_float128 SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_float128 PUBLIC TEST_FLOAT128release)
-bcm_test(NAME test_float_io_intel_quad SOURCES test_float_io.cpp)
-target_compile_definitions(test_float_io_intel_quad PUBLIC TEST_FLOAT128release)
+# bcm_test(NAME test_float_io_float128 SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_float128 PUBLIC TEST_FLOAT128release)
+# bcm_test(NAME test_float_io_intel_quad SOURCES test_float_io.cpp)
+# target_compile_definitions(test_float_io_intel_quad PUBLIC TEST_FLOAT128release)
 
-bcm_test(NAME test_int_io_tommath SOURCES test_int_io.cpp)
-target_compile_definitions(test_int_io_tommath PUBLIC TEST_TOMMATHrelease)
+# bcm_test(NAME test_int_io_tommath SOURCES test_int_io.cpp)
+# target_compile_definitions(test_int_io_tommath PUBLIC TEST_TOMMATHrelease)
 
-bcm_test(NAME test_int_io_mpz SOURCES test_int_io.cpp)
-target_compile_definitions(test_int_io_mpz PUBLIC TEST_MPZrelease)
+# bcm_test(NAME test_int_io_mpz SOURCES test_int_io.cpp)
+# target_compile_definitions(test_int_io_mpz PUBLIC TEST_MPZrelease)
 
-bcm_test(NAME test_int_io_cpp_int SOURCES test_int_io.cpp)
-target_compile_definitions(test_int_io_cpp_int PUBLIC TEST_CPP_INTrelease)
+# bcm_test(NAME test_int_io_cpp_int SOURCES test_int_io.cpp)
+# target_compile_definitions(test_int_io_cpp_int PUBLIC TEST_CPP_INTrelease)
 
-bcm_test(NAME test_cpp_int_left_shift SOURCES test_cpp_int_left_shift.cpp)
+# bcm_test(NAME test_cpp_int_left_shift SOURCES test_cpp_int_left_shift.cpp)
 
-bcm_test(NAME test_cpp_int_1 SOURCES test_cpp_int.cpp)
-target_compile_definitions(test_cpp_int_1 PUBLIC TEST1)
+# bcm_test(NAME test_cpp_int_1 SOURCES test_cpp_int.cpp)
+# target_compile_definitions(test_cpp_int_1 PUBLIC TEST1)
 
-bcm_test(NAME test_cpp_int_2 SOURCES test_cpp_int.cpp)
-target_compile_definitions(test_cpp_int_2 PUBLIC TEST2)
+# bcm_test(NAME test_cpp_int_2 SOURCES test_cpp_int.cpp)
+# target_compile_definitions(test_cpp_int_2 PUBLIC TEST2)
 
-bcm_test(NAME test_cpp_int_3 SOURCES test_cpp_int.cpp)
-target_compile_definitions(test_cpp_int_3 PUBLIC TEST3)
+# bcm_test(NAME test_cpp_int_3 SOURCES test_cpp_int.cpp)
+# target_compile_definitions(test_cpp_int_3 PUBLIC TEST3)
 
-bcm_test(NAME test_cpp_int_4 SOURCES test_cpp_int.cpp)
-target_compile_definitions(test_cpp_int_4 PUBLIC TEST4)
+# bcm_test(NAME test_cpp_int_4 SOURCES test_cpp_int.cpp)
+# target_compile_definitions(test_cpp_int_4 PUBLIC TEST4)
 
-bcm_test(NAME test_cpp_int_5 SOURCES test_cpp_int.cpp)
-target_compile_definitions(test_cpp_int_5 PUBLIC TEST5)
+# bcm_test(NAME test_cpp_int_5 SOURCES test_cpp_int.cpp)
+# target_compile_definitions(test_cpp_int_5 PUBLIC TEST5)
 
 bcm_test(NAME test_checked_cpp_int SOURCES test_checked_cpp_int.cpp)
 
-bcm_test(NAME test_miller_rabin SOURCES test_miller_rabin.cpp)
+# bcm_test(NAME test_miller_rabin SOURCES test_miller_rabin.cpp)
 
-bcm_test(NAME test_rational_io_tommath SOURCES test_rational_io.cpp)
-target_compile_definitions(test_rational_io_tommath PUBLIC TEST_TOMMATHrelease)
+# bcm_test(NAME test_rational_io_tommath SOURCES test_rational_io.cpp)
+# target_compile_definitions(test_rational_io_tommath PUBLIC TEST_TOMMATHrelease)
 
-bcm_test(NAME test_rational_io_mpz SOURCES test_rational_io.cpp)
-target_compile_definitions(test_rational_io_mpz PUBLIC TEST_MPQrelease)
+# bcm_test(NAME test_rational_io_mpz SOURCES test_rational_io.cpp)
+# target_compile_definitions(test_rational_io_mpz PUBLIC TEST_MPQrelease)
 
-bcm_test(NAME test_rational_io_cpp_int SOURCES test_rational_io.cpp)
-target_compile_definitions(test_rational_io_cpp_int PUBLIC TEST_CPP_INTrelease)
+# bcm_test(NAME test_rational_io_cpp_int SOURCES test_rational_io.cpp)
+# target_compile_definitions(test_rational_io_cpp_int PUBLIC TEST_CPP_INTrelease)
 
-bcm_test(NAME test_generic_conv SOURCES test_generic_conv.cpp)
+# bcm_test(NAME test_generic_conv SOURCES test_generic_conv.cpp)
 
-bcm_test(NAME test_rat_float_interconv_1 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_1 PUBLIC TEST1release)
+# bcm_test(NAME test_rat_float_interconv_1 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_1 PUBLIC TEST1release)
 
-bcm_test(NAME test_rat_float_interconv_2 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_2 PUBLIC TEST2release)
+# bcm_test(NAME test_rat_float_interconv_2 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_2 PUBLIC TEST2release)
 
-bcm_test(NAME test_rat_float_interconv_3 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_3 PUBLIC TEST3release)
+# bcm_test(NAME test_rat_float_interconv_3 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_3 PUBLIC TEST3release)
 
-bcm_test(NAME test_rat_float_interconv_4 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_4 PUBLIC TEST4release)
+# bcm_test(NAME test_rat_float_interconv_4 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_4 PUBLIC TEST4release)
 
-bcm_test(NAME test_rat_float_interconv_5 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_5 PUBLIC TEST5release)
+# bcm_test(NAME test_rat_float_interconv_5 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_5 PUBLIC TEST5release)
 
-bcm_test(NAME test_rat_float_interconv_6 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_6 PUBLIC TEST6release)
+# bcm_test(NAME test_rat_float_interconv_6 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_6 PUBLIC TEST6release)
 
-bcm_test(NAME test_rat_float_interconv_7 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_7 PUBLIC TEST7release)
+# bcm_test(NAME test_rat_float_interconv_7 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_7 PUBLIC TEST7release)
 
-bcm_test(NAME test_rat_float_interconv_8 SOURCES test_rat_float_interconv.cpp)
-target_compile_definitions(test_rat_float_interconv_8 PUBLIC TEST8release)
+# bcm_test(NAME test_rat_float_interconv_8 SOURCES test_rat_float_interconv.cpp)
+# target_compile_definitions(test_rat_float_interconv_8 PUBLIC TEST8release)
 
 
 
@@ -297,12 +307,12 @@ bcm_test(NAME test_mixed_cpp_int SOURCES test_mixed_cpp_int.cpp)
 bcm_test(NAME test_mixed_float SOURCES test_mixed_float.cpp)
 
 
-bcm_test(NAME include_test_mpfr_include_test SOURCES include_test/mpfr_include_test.cpp COMPILE_ONLY)
-bcm_test(NAME include_test_gmp_include_test SOURCES include_test/gmp_include_test.cpp COMPILE_ONLY)
-bcm_test(NAME include_test_tommath_include_test SOURCES include_test/tommath_include_test.cpp COMPILE_ONLY)
-bcm_test(NAME include_test_cpp_int_include_test SOURCES include_test/cpp_int_include_test.cpp COMPILE_ONLY)
-bcm_test(NAME include_test_cpp_dec_float_include_test SOURCES include_test/cpp_dec_float_include_test.cpp COMPILE_ONLY)
-bcm_test(NAME include_test_cpp_bin_float_include_test SOURCES include_test/cpp_bin_float_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_mpfr_include_test SOURCES include_test/mpfr_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_gmp_include_test SOURCES include_test/gmp_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_tommath_include_test SOURCES include_test/tommath_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_cpp_int_include_test SOURCES include_test/cpp_int_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_cpp_dec_float_include_test SOURCES include_test/cpp_dec_float_include_test.cpp COMPILE_ONLY)
+# bcm_test(NAME include_test_cpp_bin_float_include_test SOURCES include_test/cpp_bin_float_include_test.cpp COMPILE_ONLY)
 
 # bcm_test(NAME ublas_interop_test1 SOURCES ublas_interop/test1.cpp)
 # bcm_test(NAME ublas_interop_test2 SOURCES ublas_interop/test2.cpp)
@@ -343,7 +353,7 @@ bcm_test(NAME test_cpp_dec_float_serial_1 SOURCES test_cpp_dec_float_serial.cpp)
 target_compile_definitions(test_cpp_dec_float_serial_1 PUBLIC TEST1)
 bcm_test(NAME test_cpp_dec_float_serial_2 SOURCES test_cpp_dec_float_serial.cpp)
 target_compile_definitions(test_cpp_dec_float_serial_2 PUBLIC TEST2)
-bcm_test(NAME test_float128_serial SOURCES test_float128_serial.cpp)
+# bcm_test(NAME test_float128_serial SOURCES test_float128_serial.cpp)
 bcm_test(NAME test_bin_dec_float_serial_1 SOURCES test_cpp_bin_float_serial.cpp)
 target_compile_definitions(test_bin_dec_float_serial_1 PUBLIC TEST1)
 bcm_test(NAME test_bin_dec_float_serial_2 SOURCES test_cpp_bin_float_serial.cpp)
@@ -355,8 +365,8 @@ target_compile_definitions(test_bin_dec_float_serial_2 PUBLIC TEST2)
 bcm_test(NAME test_checked_mixed_cpp_int SOURCES test_checked_mixed_cpp_int.cpp)
 bcm_test(NAME test_mixed_cpp_bin_float SOURCES test_mixed_cpp_bin_float.cpp)
 bcm_test(NAME test_mixed_cpp_dec_float SOURCES test_mixed_cpp_dec_float.cpp)
-bcm_test(NAME test_mixed_mpf_float SOURCES test_mixed_mpf_float.cpp)
-bcm_test(NAME test_mixed_mpfr_float SOURCES test_mixed_mpfr_float.cpp)
+# bcm_test(NAME test_mixed_mpf_float SOURCES test_mixed_mpf_float.cpp)
+# bcm_test(NAME test_mixed_mpfr_float SOURCES test_mixed_mpfr_float.cpp)
 #
 # Check for narrowing conversions:
 #
