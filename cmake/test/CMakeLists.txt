@@ -122,6 +122,7 @@ target_link_libraries(boost_unit_test_framework PUBLIC
 )
 
 add_library(boost::test ALIAS boost_unit_test_framework)
+bcm_shadow_notify(boost::test)
 
 bcm_deploy(TARGETS boost_prg_exec_monitor boost_test_exec_monitor boost_unit_test_framework INCLUDE include NAMESPACE boost::)
 
