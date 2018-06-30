@@ -4,6 +4,7 @@ project(boost_{{name}})
 find_package(BCM)
 include(BCMDeploy)
 include(BCMSetupVersion)
+include(BCMTest)
 
 {{#deps}}
 find_package({{package}})
@@ -30,4 +31,4 @@ target_include_directories(boost_{{name}} PRIVATE include)
 
 bcm_deploy(TARGETS boost_{{name}} INCLUDE include NAMESPACE boost::)
 
-add_subdirectory(test)
+bcm_add_test_subdirectory(test)

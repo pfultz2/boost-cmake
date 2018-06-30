@@ -74,10 +74,12 @@ bcm_test(NAME boost_uuid_test_uuid_in_map SOURCES test_uuid_in_map.cpp)
 bcm_test(NAME boost_uuid_test_md5 SOURCES test_md5.cpp)
 bcm_test(NAME boost_uuid_test_sha1 SOURCES test_sha1.cpp)
 
+if(MSVC)
 # test MSVC 12 (VS2013) optimizer bug with SIMD operations.
 # See https://svn.boost.org/trac/boost/ticket/8509#comment:3
 # Only happens in Release x64 builds.
 bcm_test(NAME boost_uuid_test_msvc_simd_bug981648_main SOURCES test_msvc_simd_bug981648_main.cpp)
+endif()
 
 # a small benchmark test for random generation
 bcm_test(NAME boost_uuid_test_bench_random SOURCES test_bench_random.cpp)

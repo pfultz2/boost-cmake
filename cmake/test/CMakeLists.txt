@@ -93,6 +93,8 @@ add_library(boost_unit_test_framework
     src/progress_monitor.cpp
     src/results_collector.cpp
     src/results_reporter.cpp
+    src/test_framework_init_observer.cpp
+    src/test_main.cpp
     src/test_tools.cpp
     src/test_tree.cpp
     src/unit_test_log.cpp
