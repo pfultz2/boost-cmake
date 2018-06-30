@@ -58,7 +58,6 @@ bcm_test(NAME run_exe_path SOURCES run_exe_path.cpp ARGS $<TARGET_FILE:sparring_
 bcm_test(NAME search_path SOURCES search_path.cpp)
 bcm_test(NAME shell SOURCES shell.cpp ARGS $<TARGET_FILE:sparring_partner>)
 bcm_test(NAME shell_path SOURCES shell_path.cpp ARGS)
-bcm_test(NAME async_system SOURCES async_system.cpp ARGS $<TARGET_FILE:sparring_partner>)
 bcm_test(NAME system_test1 SOURCES system_test1.cpp ARGS $<TARGET_FILE:sparring_partner>)
 bcm_test(NAME system_test2 SOURCES system_test2.cpp ARGS $<TARGET_FILE:sparring_partner>)
 bcm_test(NAME spawn SOURCES spawn.cpp ARGS $<TARGET_FILE:sparring_partner>)

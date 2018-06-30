@@ -759,9 +759,6 @@ bcm_test(NAME compile_test_tools_test_data_inc_test SOURCES compile_test/tools_t
 bcm_test(NAME compile_test_tools_test_inc_test SOURCES compile_test/tools_test_inc_test.cpp COMPILE_ONLY)
 bcm_test(NAME compile_test_tools_toms748_inc_test SOURCES compile_test/tools_toms748_inc_test.cpp COMPILE_ONLY)
 
-bcm_test(NAME ___test_common_factor_test SOURCES ../test/common_factor_test.cpp)
-target_link_libraries(___test_common_factor_test boost::test)
-
 bcm_test(NAME octonion_test SOURCES octonion_test.cpp)
 target_link_libraries(octonion_test boost::test)
 
@@ -788,8 +785,6 @@ bcm_test(NAME complex_test SOURCES complex_test.cpp)
 target_link_libraries(complex_test boost::test)
 bcm_test(NAME test_polynomial SOURCES test_polynomial.cpp)
 target_link_libraries(test_polynomial boost::test)
-bcm_test(NAME test_gcd SOURCES test_gcd.cpp)
-target_link_libraries(test_gcd boost::test)
 
 bcm_test(NAME multiprc_concept_check_1 SOURCES multiprc_concept_check_1.cpp COMPILE_ONLY)
 target_link_libraries(multiprc_concept_check_1 boost::test)
