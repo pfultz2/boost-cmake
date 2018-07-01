@@ -111,7 +111,7 @@ bcm_test(NAME core_scoped_enum_compile_fail_conv_to_int SOURCES scoped_enum_comp
 
 bcm_test(NAME core_underlying_type SOURCES underlying_type.cpp)
 
-bcm_test(NAME core_pointer_traits_to_address_test SOURCES pointer_traits_to_address_test.cpp)
+# bcm_test(NAME core_pointer_traits_to_address_test SOURCES pointer_traits_to_address_test.cpp)
 bcm_test(NAME core_pointer_traits_pointer_test SOURCES pointer_traits_pointer_test.cpp)
 bcm_test(NAME core_pointer_traits_element_type_test SOURCES pointer_traits_element_type_test.cpp)
 bcm_test(NAME core_pointer_traits_difference_type_test SOURCES pointer_traits_difference_type_test.cpp)
