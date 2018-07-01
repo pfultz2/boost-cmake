@@ -7,7 +7,7 @@ bcm_test(NAME core_addressof_test2 SOURCES addressof_test2.cpp)
 bcm_test(NAME core_addressof_np_test SOURCES addressof_np_test.cpp)
 bcm_test(NAME core_addressof_fn_test SOURCES addressof_fn_test.cpp)
 bcm_test(NAME core_addressof_constexpr_test SOURCES addressof_constexpr_test.cpp COMPILE_ONLY)
-# bcm_test(NAME core_addressof_fail_rvalue SOURCES addressof_fail_rvalue.cpp COMPILE_ONLY WILL_FAIL)
+bcm_test(NAME core_addressof_fail_rvalue SOURCES addressof_fail_rvalue.cpp COMPILE_ONLY WILL_FAIL)
 
 bcm_test(NAME core_checked_delete_test SOURCES checked_delete_test.cpp)
 bcm_test(NAME core_checked_delete_fail SOURCES checked_delete_fail.cpp COMPILE_ONLY WILL_FAIL)
@@ -69,9 +69,9 @@ bcm_test(NAME core_lightweight_test_test2 SOURCES lightweight_test_test2.cpp)
 bcm_test(NAME core_lightweight_test_all_eq_test SOURCES lightweight_test_all_eq_test.cpp)
 bcm_test(NAME core_lightweight_test_all_with_test SOURCES lightweight_test_all_with_test.cpp)
 bcm_test(NAME core_lightweight_test_all_with_fail SOURCES lightweight_test_all_with_fail.cpp)
-# bcm_test(NAME core_lightweight_test_lt_le_test SOURCES lightweight_test_lt_le_test.cpp)
+bcm_test(NAME core_lightweight_test_lt_le_test SOURCES lightweight_test_lt_le_test.cpp)
 
-# bcm_test(NAME core_lightweight_test_eq_nullptr SOURCES lightweight_test_eq_nullptr.cpp)
+bcm_test(NAME core_lightweight_test_eq_nullptr SOURCES lightweight_test_eq_nullptr.cpp)
 
 bcm_test(NAME core_lightweight_test_fail SOURCES lightweight_test_fail.cpp WILL_FAIL)
 bcm_test(NAME core_lightweight_test_fail2 SOURCES lightweight_test_fail2.cpp WILL_FAIL)
@@ -87,8 +87,8 @@ bcm_test(NAME core_lightweight_test_fail8_no_rtti SOURCES lightweight_test_fail8
 set_target_properties(core_lightweight_test_fail8_no_rtti PROPERTIES CXX_RTTI Off)
 bcm_test(NAME core_lightweight_test_fail9 SOURCES lightweight_test_fail9.cpp WILL_FAIL)
 bcm_test(NAME core_lightweight_test_fail10 SOURCES lightweight_test_fail10.cpp WILL_FAIL)
-# bcm_test(NAME core_lightweight_test_lt_fail SOURCES lightweight_test_lt_fail.cpp WILL_FAIL)
-# bcm_test(NAME core_lightweight_test_le_fail SOURCES lightweight_test_le_fail.cpp WILL_FAIL)
+bcm_test(NAME core_lightweight_test_lt_fail SOURCES lightweight_test_lt_fail.cpp WILL_FAIL)
+bcm_test(NAME core_lightweight_test_le_fail SOURCES lightweight_test_le_fail.cpp WILL_FAIL)
 
 bcm_test(NAME core_is_same_test SOURCES is_same_test.cpp)
 
@@ -111,9 +111,9 @@ bcm_test(NAME core_scoped_enum_compile_fail_conv_to_int SOURCES scoped_enum_comp
 
 bcm_test(NAME core_underlying_type SOURCES underlying_type.cpp)
 
-# bcm_test(NAME core_pointer_traits_to_address_test SOURCES pointer_traits_to_address_test.cpp)
-# bcm_test(NAME core_pointer_traits_pointer_test SOURCES pointer_traits_pointer_test.cpp)
-# bcm_test(NAME core_pointer_traits_element_type_test SOURCES pointer_traits_element_type_test.cpp)
-# bcm_test(NAME core_pointer_traits_difference_type_test SOURCES pointer_traits_difference_type_test.cpp)
-# bcm_test(NAME core_pointer_traits_rebind_test SOURCES pointer_traits_rebind_test.cpp)
-# bcm_test(NAME core_pointer_traits_pointer_to_test SOURCES pointer_traits_pointer_to_test.cpp)
+bcm_test(NAME core_pointer_traits_to_address_test SOURCES pointer_traits_to_address_test.cpp)
+bcm_test(NAME core_pointer_traits_pointer_test SOURCES pointer_traits_pointer_test.cpp)
+bcm_test(NAME core_pointer_traits_element_type_test SOURCES pointer_traits_element_type_test.cpp)
+bcm_test(NAME core_pointer_traits_difference_type_test SOURCES pointer_traits_difference_type_test.cpp)
+bcm_test(NAME core_pointer_traits_rebind_test SOURCES pointer_traits_rebind_test.cpp)
+bcm_test(NAME core_pointer_traits_pointer_to_test SOURCES pointer_traits_pointer_to_test.cpp)
