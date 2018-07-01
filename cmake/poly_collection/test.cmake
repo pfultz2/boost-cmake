@@ -6,13 +6,12 @@
 # See http://www.boost.org/libs/poly_collection for library home page.
 
 
-# TODO: Disabled because they are missing main
-bcm_test(NAME test_algorithm SOURCES test_algorithm.cpp)
-bcm_test(NAME test_capacity SOURCES test_capacity.cpp)
-bcm_test(NAME test_comparison SOURCES test_comparison.cpp)
-bcm_test(NAME test_construction SOURCES test_construction.cpp)
-bcm_test(NAME test_emplacement SOURCES test_emplacement.cpp)
-bcm_test(NAME test_erasure SOURCES test_erasure.cpp)
-bcm_test(NAME test_insertion SOURCES test_insertion.cpp)
-bcm_test(NAME test_iterators SOURCES test_iterators.cpp)
-bcm_test(NAME test_registration SOURCES test_registration.cpp)
+bcm_test(NAME test_algorithm SOURCES test_algorithm.cpp test_algorithm1.cpp test_algorithm2.cpp test_algorithm3.cpp test_algorithm_main.cpp)
+bcm_test(NAME test_capacity SOURCES test_capacity.cpp test_capacity_main.cpp)
+bcm_test(NAME test_comparison SOURCES test_comparison.cpp test_comparison_main.cpp)
+bcm_test(NAME test_construction SOURCES test_construction.cpp test_construction_main.cpp)
+bcm_test(NAME test_emplacement SOURCES test_emplacement.cpp test_emplacement_main.cpp)
+bcm_test(NAME test_erasure SOURCES test_erasure.cpp test_erasure_main.cpp)
+bcm_test(NAME test_insertion SOURCES test_insertion.cpp test_insertion_main.cpp)
+bcm_test(NAME test_iterators SOURCES test_iterators.cpp test_iterators_main.cpp)
+bcm_test(NAME test_registration SOURCES test_registration.cpp test_registration_main.cpp)

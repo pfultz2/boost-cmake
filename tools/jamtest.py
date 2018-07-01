@@ -140,7 +140,7 @@ def test_options_idx(rule):
 class Test:
     def __init__(self):
         self.type = None
-        self.source = None
+        self.sources = None
         self.name = None
         self.options = {}
 
@@ -148,8 +148,8 @@ class Test:
         data = list(cmd.args())
         rule = list(data[0])
         self.type = rule[0].strip()
-        # TODO: Make this sources
-        self.source = rule[1]
+        # TODO: Make this sourcess
+        self.sources = [src for src in rule[1:] if '.' in src]
         self.name = safe_get2(data, test_name_idx(self.type), 0)
         self.options = parse_bjam_options(safe_get(data, test_options_idx(self.type)))
 
@@ -162,16 +162,17 @@ class Test:
 
     def compute_name(self):
         if self.name == None or self.name.strip() == '':
-            if '.' in self.source:
-                i = self.source.rindex('.')
-                self.name = self.source[0:i].replace('/', '_').replace('.', '_')
+            source = self.sources[0]
+            if '.' in source:
+                i = source.rindex('.')
+                self.name = source[0:i].replace('/', '_').replace('.', '_')
             else:
-                self.name = self.source
+                self.name = source
 
     def bcm_test(self):
         will_fail = 'fail' in self.type
         compile_only = 'compile' in self.type or 'link' in self.type
-        command = "NAME {} SOURCES {}".format(self.name, self.source)
+        command = "NAME {} SOURCES {}".format(self.name, ' '.join(self.sources))
         if compile_only: command = command + " COMPILE_ONLY"
         if will_fail: command = command + " WILL_FAIL"
         result = "bcm_test({})".format(command)
